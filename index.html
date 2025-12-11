@@ -257,9 +257,16 @@
 
         .features {
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
             margin-bottom: 30px;
+        }
+
+        .features-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
         }
 
         .feature {
@@ -305,8 +312,9 @@
         }
 
         @media (max-width: 600px) {
-            .features {
-                flex-wrap: wrap;
+            .features-row {
+                flex-direction: column;
+                align-items: center;
             }
         }
 
@@ -575,21 +583,23 @@
         </p>
 
         <div class="features">
-            <div class="feature">
-                <div class="feature-icon">📸</div>
-                <div class="feature-text">
-                    <span class="feature-title">Partage</span>
-                    <span class="feature-desc">Montre ton setup au monde</span>
+            <div class="features-row">
+                <div class="feature">
+                    <div class="feature-icon">📸</div>
+                    <div class="feature-text">
+                        <span class="feature-title">Partage</span>
+                        <span class="feature-desc">Montre ton setup au monde</span>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔗</div>
+                    <div class="feature-text">
+                        <span class="feature-title">Découvre</span>
+                        <span class="feature-desc">Trouve les produits utilisés</span>
+                    </div>
                 </div>
             </div>
-            <div class="feature">
-                <div class="feature-icon">🔗</div>
-                <div class="feature-text">
-                    <span class="feature-title">Découvre</span>
-                    <span class="feature-desc">Trouve les produits utilisés</span>
-                </div>
-            </div>
-            <div class="feature">
+            <div class="feature feature-centered">
                 <div class="feature-icon">💬</div>
                 <div class="feature-text">
                     <span class="feature-title">Communauté</span>
