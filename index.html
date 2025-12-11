@@ -369,37 +369,54 @@
     </div>
 
     <script>
-        // Store emails in localStorage for now (you can replace with API call)
         const form = document.getElementById('newsletterForm');
         const emailInput = document.getElementById('emailInput');
         const successMessage = document.getElementById('successMessage');
+        const submitBtn = form.querySelector('button');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const email = emailInput.value;
+            const email = emailInput.value.trim();
+            if (!email) return;
 
-            // Store locally (replace with your API endpoint)
-            let subscribers = JSON.parse(localStorage.getItem('bynshare_subscribers') || '[]');
-            if (!subscribers.includes(email)) {
-                subscribers.push(email);
-                localStorage.setItem('bynshare_subscribers', JSON.stringify(subscribers));
+            // Disable button during submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi...';
+
+            try {
+                const response = await fetch('https://bynshare-django-production.up.railway.app/api/users/newsletter/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, source: 'landing_page' })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Success
+                    form.style.display = 'none';
+                    successMessage.textContent = data.message || 'Merci ! Vous serez notifie des le lancement de la beta.';
+                    successMessage.classList.add('show');
+                } else {
+                    // Error from API
+                    alert(data.error || 'Une erreur est survenue. Veuillez reessayer.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "S'inscrire";
+                }
+            } catch (err) {
+                // Network error - fallback to localStorage
+                console.log('API unavailable, storing locally');
+                let subscribers = JSON.parse(localStorage.getItem('bynshare_subscribers') || '[]');
+                if (!subscribers.includes(email)) {
+                    subscribers.push(email);
+                    localStorage.setItem('bynshare_subscribers', JSON.stringify(subscribers));
+                }
+                form.style.display = 'none';
+                successMessage.classList.add('show');
             }
-
-            // Optional: Send to your backend API
-            // try {
-            //     await fetch('https://bynshare-django-production.up.railway.app/api/newsletter/', {
-            //         method: 'POST',
-            //         headers: { 'Content-Type': 'application/json' },
-            //         body: JSON.stringify({ email })
-            //     });
-            // } catch (err) {
-            //     console.log('Newsletter API not available');
-            // }
-
-            // Show success message
-            form.style.display = 'none';
-            successMessage.classList.add('show');
         });
     </script>
 </body>
