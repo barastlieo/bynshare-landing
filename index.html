@@ -607,7 +607,7 @@
         </div>
 
         <div class="success-message" id="successMessage">
-            GG ! Tu seras notifie des le lancement de la beta.
+            GG ! Tu seras notifié dès le lancement de la beta.
         </div>
 
         <form class="newsletter-form" id="newsletterForm">
@@ -702,7 +702,7 @@
 
                 if (response.ok) {
                     form.style.display = 'none';
-                    successMessage.textContent = data.message || 'GG ! Tu seras notifie des le lancement de la beta.';
+                    successMessage.textContent = data.message || 'GG ! Tu seras notifié dès le lancement de la beta.';
                     successMessage.classList.add('show');
                 } else {
                     alert(data.error || 'Une erreur est survenue. Reessaie !');
